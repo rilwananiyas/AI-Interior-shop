@@ -1,0 +1,65 @@
+
+.home-page {
+  min-height: 100vh;
+}
+
+.hero {
+  display: flex;
+  min-height: 590px;
+  padding: 100px clamp(24px, 10vw, 150px);
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(247, 244, 236, 0.97),
+      rgba(247, 244, 236, 0.78) 48%,
+      rgba(247, 244, 236, 0.12)
+    ),
+    url("https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2000&q=85")
+    center / cover no-repeat;
+}
+
+.hero h1 {
+  max-width: 650px;
+  margin-bottom: 22px;
+  font-size: clamp(44px, 6vw, 76px);
+  line-height: 1.08;
+}
+
+.hero > p:not(.eyebrow) {
+  max-width: 480px;
+  margin-bottom: 30px;
+  color: #626258;
+  font-size: 16px;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.nav-button {
+  padding: 12px 18px;
+  border-radius: 9px;
+  background: var(--primary);
+  color: #fff !important;
+}
+
+@media (max-width: 600px) {
+  .hero {
+    min-height: 480px;
+    padding: 65px 24px;
+    background-position: 60% center;
+  }
+
+  .hero h1 {
+    font-size: 44px;
+  }
+
+  .hero > p:not(.eyebrow) {
+    font-size: 14px;
+  }
+}

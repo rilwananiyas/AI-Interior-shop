@@ -1,0 +1,326 @@
+/* Main admin page */
+.admin-page {
+  min-height: 100vh;
+  padding-bottom: 60px;
+  background: #faf9f6;
+  color: #292b25;
+  box-sizing: border-box;
+}
+
+.admin-page * {
+  box-sizing: border-box;
+}
+
+/* Navbar */
+.admin-page .navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 5%;
+  background: #fff;
+  border-bottom: 1px solid #e8e5dd;
+}
+
+.admin-page .brand {
+  color: #3e533d;
+  font-size: 23px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.admin-page .nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+
+.admin-page .nav-links a {
+  color: #55594f;
+  text-decoration: none;
+}
+
+.admin-page .nav-links a:hover {
+  color: #536b52;
+}
+
+/* Main content cards */
+.admin-card {
+  width: min(1100px, 92%);
+  margin: 35px auto;
+  padding: 30px;
+  border: 1px solid #e8e5dd;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 8px 28px rgba(35, 40, 30, 0.06);
+}
+
+.admin-card h1 {
+  margin: 8px 0 12px;
+  font-size: clamp(28px, 4vw, 40px);
+}
+
+.admin-card h2 {
+  margin-top: 0;
+  font-size: 28px;
+}
+
+.admin-card h3 {
+  color: #3e533d;
+}
+
+.admin-card > p {
+  color: #77796f;
+  line-height: 1.7;
+}
+
+.admin-card .eyebrow {
+  color: #536b52;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* Product form - consistent single-column alignment */
+.admin-card form {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.admin-card form > label {
+  display: block;
+  margin-top: 8px;
+  color: #41443c;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.admin-card form input:not([type="checkbox"]),
+.admin-card form textarea,
+.admin-card form select {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-height: 46px;
+  padding: 13px 14px;
+  border: 1px solid #deded5;
+  border-radius: 7px;
+  outline: none;
+  background: #fff;
+  color: #292b25;
+  font: inherit;
+}
+
+.admin-card form input:focus,
+.admin-card form textarea:focus,
+.admin-card form select:focus {
+  border-color: #536b52;
+  box-shadow: 0 0 0 3px rgba(83, 107, 82, 0.12);
+}
+
+.admin-card form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+/* Checkbox alignment */
+.admin-card form input[type="checkbox"] {
+  width: 17px;
+  height: 17px;
+  min-width: 17px;
+  margin: 0;
+  accent-color: #536b52;
+  cursor: pointer;
+}
+
+/* Suitable rooms and feature checkbox labels */
+.admin-card form label:has(input[type="checkbox"]) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* AI recommendation section */
+.admin-card form hr {
+  width: 100%;
+  margin: 20px 0;
+  border: 0;
+  border-top: 1px solid #e8e5dd;
+}
+
+.admin-card form h3 {
+  margin: 5px 0;
+  font-size: 21px;
+}
+
+.admin-card form p {
+  color: #77796f;
+  line-height: 1.6;
+}
+
+.feature-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 20px;
+  padding: 12px 15px;
+  border: 1px solid #e8e5dd;
+  border-radius: 8px;
+  background: #faf9f6;
+}
+
+/* Form buttons */
+.admin-card form button {
+  width: fit-content;
+  min-width: 140px;
+  margin-top: 12px;
+  padding: 12px 20px;
+  border: 1px solid #536b52;
+  border-radius: 6px;
+  background: #536b52;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-card form button:hover {
+  background: #3e533d;
+}
+
+.admin-card form button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Feedback messages */
+.admin-card .success-message,
+.admin-card .error-message {
+  margin: 16px 0;
+  padding: 13px 15px;
+  border-radius: 7px;
+}
+
+.admin-card .success-message {
+  color: #28633a;
+  background: #edf8ef;
+}
+
+.admin-card .error-message {
+  color: #a12c2c;
+  background: #fff0ef;
+}
+
+/* Existing products */
+.admin-product-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 25px;
+}
+
+.admin-product-item {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  border: 1px solid #e8e5dd;
+  border-radius: 12px;
+  background: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.admin-product-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(35, 40, 30, 0.09);
+}
+
+.admin-product-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  background: #f0eee8;
+}
+
+.product-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #77796f;
+  font-size: 14px;
+}
+
+.admin-product-info {
+  padding: 20px;
+}
+
+.admin-product-info h3 {
+  margin: 0 0 14px;
+  font-size: 22px;
+  overflow-wrap: anywhere;
+}
+
+.admin-product-info p {
+  margin: 8px 0;
+  color: #686b61;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+/* Edit and delete buttons */
+.admin-product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.admin-product-actions button {
+  padding: 9px 18px;
+  border: 1px solid #536b52;
+  border-radius: 6px;
+  background: #fff;
+  color: #536b52;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-product-actions button:hover {
+  background: #536b52;
+  color: #fff;
+}
+
+/* Responsive layout */
+@media (max-width: 650px) {
+  .admin-page .navbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-page .nav-links {
+    gap: 15px;
+  }
+
+  .admin-card {
+    width: 94%;
+    padding: 20px;
+    margin: 22px auto;
+  }
+
+  .admin-product-list {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-product-image {
+    height: 230px;
+  }
+
+  .feature-options {
+    grid-template-columns: 1fr;
+  }
+}

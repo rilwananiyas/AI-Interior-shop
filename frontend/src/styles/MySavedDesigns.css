@@ -1,0 +1,156 @@
+
+.saved-designs-page {
+  min-height: 70vh;
+  padding: 40px 6%;
+  background: #f8f8f8;
+}
+
+.saved-designs-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.saved-designs-header h1 {
+  margin-bottom: 10px;
+  color: #222;
+  font-size: 32px;
+}
+
+.saved-designs-header p {
+  color: #666;
+}
+
+.saved-designs-status,
+.saved-designs-empty {
+  padding: 50px 20px;
+  text-align: center;
+  color: #666;
+}
+
+.saved-designs-empty {
+  background: #fff;
+  border-radius: 12px;
+}
+
+.saved-designs-empty h2 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.saved-designs-error {
+  margin: 15px auto;
+  padding: 12px;
+  max-width: 700px;
+  color: #b42318;
+  background: #fee4e2;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.saved-designs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.saved-design-card {
+  overflow: hidden;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.08);
+}
+
+.saved-design-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+}
+
+.saved-design-image {
+  position: relative;
+  min-width: 0;
+}
+
+.saved-design-image span {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  padding: 5px 9px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.65);
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.saved-design-image img {
+  display: block;
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+}
+
+.saved-design-info {
+  padding: 18px;
+}
+
+.saved-design-info h2 {
+  margin: 0 0 8px;
+  color: #222;
+  font-size: 20px;
+}
+
+.saved-design-info p {
+  margin-bottom: 14px;
+  color: #777;
+  font-size: 14px;
+}
+
+.saved-design-view-link {
+  display: inline-block;
+  margin-right: 14px;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.saved-design-view-link:hover {
+  text-decoration: underline;
+}
+
+.saved-design-delete {
+  display: block;
+  width: 100%;
+  margin-top: 18px;
+  padding: 11px;
+  color: #fff;
+  background: #dc3545;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.saved-design-delete:hover:not(:disabled) {
+  background: #b02a37;
+}
+
+.saved-design-delete:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .saved-designs-page {
+    padding: 25px 4%;
+  }
+
+  .saved-designs-header h1 {
+    font-size: 26px;
+  }
+
+  .saved-design-image img {
+    height: 145px;
+  }
+}

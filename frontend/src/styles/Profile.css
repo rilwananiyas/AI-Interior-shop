@@ -1,0 +1,75 @@
+
+/* Profile icon and dropdown card */
+.profile-menu {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.profile-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #e8e5dd;
+  border-radius: 50%;
+  background: #f4f2ec;
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.profile-icon:hover {
+  background: #e8ede5;
+}
+
+.profile-dropdown {
+  position: absolute;
+  z-index: 1000;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 290px;
+  padding: 22px;
+  border: 1px solid #e8e5dd;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 35px rgba(35, 40, 30, 0.15);
+}
+
+.profile-dropdown h3 {
+  margin: 0 0 8px;
+  color: #3e533d;
+  font-size: 22px;
+  overflow-wrap: anywhere;
+}
+
+.profile-dropdown p {
+  margin: 8px 0;
+  color: #77796f;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.profile-dropdown .profile-role {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #edf2e9;
+  color: #3e533d;
+  font-size: 12px;
+}
+
+.profile-dropdown .profile-logout {
+  width: 100%;
+  margin-top: 14px;
+  padding: 11px;
+  border: none;
+  border-radius: 6px;
+  background: #536b52;
+  color: #fff;
+  cursor: pointer;
+}
+
+.profile-dropdown .profile-logout:hover {
+  background: #3e533d;
+}
