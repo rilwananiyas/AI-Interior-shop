@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "../styles/MyOrders.css";
 
-const API_URL = "http://localhost:5000/api/orders/my-orders";
-const CANCEL_URL = "http://localhost:5000/api/orders";
+const API_URL = "/api/orders/my-orders";
+const CANCEL_URL = "/api/orders";
 const REFRESH_INTERVAL = 15000;
 
 const TABS = [

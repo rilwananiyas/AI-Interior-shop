@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:5000/api/products";
+const API_URL = "/api/products";
 const MY_PRODUCTS_URL = `${API_URL}/my-products`;
 
 const emptyForm = {

@@ -126,9 +126,7 @@ function Home() {
   return (
     <main className="home-page">
 
-      {/* ==============================
-          NAVIGATION BAR
-      ============================== */}
+      {/* NAVIGATION BAR */}
 
       <nav className="navbar">
 
@@ -139,11 +137,8 @@ function Home() {
         <div className="nav-links">
 
           <Link to="/products">Furniture</Link>
-
           <Link to="/ai-assistant">AI Assistant</Link>
-
           <Link to="/room-analyzer">Room Analyzer</Link>
-
           <Link to="/cart">Cart</Link>
 
           {isLoggedIn ? (
@@ -178,9 +173,7 @@ function Home() {
                 <button
                   type="button"
                   className="profile-icon"
-                  onClick={() =>
-                    setProfileOpen((open) => !open)
-                  }
+                  onClick={() => setProfileOpen((open) => !open)}
                   aria-label="Toggle profile menu"
                   aria-expanded={profileOpen}
                   aria-haspopup="true"
@@ -275,8 +268,6 @@ function Home() {
 
                     <div className="profile-dropdown-links">
 
-                      {/* My Profile */}
-
                       <Link
                         to="/my-profile"
                         onClick={() => setProfileOpen(false)}
@@ -285,8 +276,6 @@ function Home() {
                         <span aria-hidden="true">›</span>
                       </Link>
 
-                      {/* My Orders */}
-
                       <Link
                         to="/my-orders"
                         onClick={() => setProfileOpen(false)}
@@ -294,8 +283,6 @@ function Home() {
                         <span>My Orders</span>
                         <span aria-hidden="true">›</span>
                       </Link>
-
-                      {/* My Saved Designs */}
 
                       <Link
                         to="/my-saved-designs"
@@ -309,7 +296,6 @@ function Home() {
 
                       {isApprovedOwner && (
                         <>
-
                           <Link
                             to="/owner/products"
                             onClick={() => setProfileOpen(false)}
@@ -325,7 +311,6 @@ function Home() {
                             <span>My Shop Orders</span>
                             <span aria-hidden="true">›</span>
                           </Link>
-
                         </>
                       )}
 
@@ -380,9 +365,7 @@ function Home() {
 
       </nav>
 
-      {/* ==============================
-          HOMEPAGE HERO SECTION
-      ============================== */}
+      {/* HOMEPAGE HERO SECTION */}
 
       <section className="hero">
 

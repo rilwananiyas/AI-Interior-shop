@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "../styles/AdminOrders.css";
 
-const API_URL = "http://localhost:5000/api/orders";
+const API_URL = "/api/orders";
 
 const NEXT_STATUS = {
   Confirmed: "Processing",

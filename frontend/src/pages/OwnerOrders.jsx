@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
-const ORDERS_URL = "http://localhost:5000/api/orders/owner/orders";
+const ORDERS_URL = "/api/orders/owner/orders";
 
 function OwnerOrders() {
   const navigate = useNavigate();
