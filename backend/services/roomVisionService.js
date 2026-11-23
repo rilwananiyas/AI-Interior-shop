@@ -66,51 +66,37 @@ const analyzeRoomImage = async (imageBuffer, mimeType) => {
 
   // 2. AI room analysis prompt.
   const prompt = `
-You are an intelligent interior design assistant.
+You are an expert AI interior design assistant.
 
-Carefully analyze the uploaded room photograph.
+Analyze the uploaded room photograph carefully.
 
-IMPORTANT RULES:
-- Describe only objects and characteristics actually visible.
-- Never invent windows, doors, furniture or other objects.
-- Distinguish visible facts from design suggestions.
-- Do not assume customer preferences.
-- Do not recommend unsupported structural changes.
+IMPORTANT:
+- Describe only things actually visible in the photograph.
+- Never invent furniture, windows, doors or other objects.
+- Do not confuse suggestions with visible facts.
+- If something cannot be identified, use "Unknown".
+- Provide practical furniture and interior design suggestions.
 
-Return ONLY valid JSON using this structure:
+Return ONLY valid JSON using this exact structure:
 
 {
   "roomType": "Bedroom, Living Room, Dining Room, Office, or Unknown",
-
   "roomDetails": {
-    "walls": "Description of visible walls",
-    "floor": "Description of the floor",
-    "windows": "Visible windows or not visible",
-    "lighting": "Description of lighting",
-    "layout": "Description of room layout",
-    "visibleFurniture": [
-      "Furniture items actually visible"
-    ],
+    "walls": "Visible wall description",
+    "floor": "Visible floor description",
+    "windows": "Visible windows or Unknown",
+    "lighting": "Lighting description",
+    "layout": "Room layout description",
+    "visibleFurniture": ["Visible furniture item"],
     "availableSpace": "Estimated available space"
   },
-
   "designAnalysis": {
     "detectedStyle": "Modern, Minimalist, Traditional, Industrial, Scandinavian, Rustic, Bohemian, or Unknown",
-    "roomColorPalette": [
-      "Visible room colour 1",
-      "Visible room colour 2"
-    ],
-    "suggestedFurnitureMaterials": [
-      "Suitable furniture material 1",
-      "Suitable furniture material 2"
-    ],
+    "roomColorPalette": ["Visible colour 1", "Visible colour 2"],
+    "suggestedFurnitureMaterials": ["Material 1", "Material 2"],
     "spaceCondition": "Small, Medium, Large, or Unknown",
-    "designSuggestions": [
-      "Furniture design suggestion 1",
-      "Furniture design suggestion 2"
-    ]
+    "designSuggestions": ["Suggestion 1", "Suggestion 2"]
   },
-
   "improvements": [
     "Practical improvement 1",
     "Practical improvement 2",
@@ -120,18 +106,10 @@ Return ONLY valid JSON using this structure:
   ]
 }
 
-ANALYSIS RULES:
+Identify the room type, visible colours, furniture, materials and space.
+Suggest improvements for furniture placement, storage, lighting and design.
 
-1. Identify room type using visible evidence.
-2. Identify interior style only when sufficient evidence exists.
-3. Identify visible colours without inventing colours.
-4. Suggest furniture materials that complement the room.
-5. Estimate room space as Small, Medium, Large, or Unknown.
-6. Suggest furniture suitable for the room layout.
-7. Provide five distinct and practical improvements.
-8. Focus on furniture placement, storage, lighting and design.
-
-Return only JSON. Do not include Markdown.
+Return only JSON. Do not include Markdown or explanations.
 `;
 
   // 3. Send image to Ollama vision model.
@@ -149,12 +127,22 @@ Return only JSON. Do not include Markdown.
         images: [imageBase64],
         format: "json",
         stream: false,
+        keep_alive: "10m",
+        options: {
+          temperature: 0.2,
+          num_predict: 1200,
+        },
       }),
       signal: AbortSignal.timeout(900000),
     });
   } catch (error) {
-    if (error.name === "TimeoutError" || error.name === "AbortError") {
-      throw new Error("Room analysis timed out. Please try again.");
+    if (
+      error.name === "TimeoutError" ||
+      error.name === "AbortError"
+    ) {
+      throw new Error(
+        "Room analysis timed out. Please try again."
+      );
     }
 
     throw new Error(
@@ -162,7 +150,7 @@ Return only JSON. Do not include Markdown.
     );
   }
 
-  // 4. Handle Ollama errors.
+  // 4. Handle Ollama HTTP errors.
   if (!response.ok) {
     const errorText = await response.text();
 
@@ -171,22 +159,68 @@ Return only JSON. Do not include Markdown.
     );
   }
 
-  const data = await response.json();
+  // 5. Read Ollama response.
+  let data;
 
-  if (!data.response || typeof data.response !== "string") {
-    throw new Error("The vision AI returned an empty response.");
+  try {
+    data = await response.json();
+  } catch {
+    throw new Error("Ollama returned an invalid JSON response.");
   }
 
-  // 5. Parse AI JSON response.
+  // Temporary debugging information.
+  console.log("========== OLLAMA DEBUG ==========");
+  console.log("Model:", VISION_MODEL);
+  console.log("Response keys:", Object.keys(data));
+  console.log("Done:", data.done);
+  console.log("Done reason:", data.done_reason);
+  console.log("Response length:", data.response?.length || 0);
+  console.log("Ollama error:", data.error || "None");
+  console.log("==================================");
+
+  if (data.error) {
+    throw new Error(`Ollama error: ${data.error}`);
+  }
+
+  // Support both generate and chat response structures.
+  const aiResponse =
+    typeof data.response === "string"
+      ? data.response.trim()
+      : typeof data.message?.content === "string"
+        ? data.message.content.trim()
+        : "";
+
+  if (!aiResponse) {
+    console.error("Empty Ollama response details:", {
+      model: VISION_MODEL,
+      done: data.done,
+      done_reason: data.done_reason,
+      prompt_eval_count: data.prompt_eval_count,
+      eval_count: data.eval_count,
+    });
+
+    throw new Error(
+      `The vision AI returned an empty response. ` +
+      `Model: ${VISION_MODEL}. ` +
+      `Done reason: ${data.done_reason || "Unknown"}. ` +
+      `Check the backend terminal for Ollama debug details.`
+    );
+  }
+
+  // 6. Parse AI JSON response.
   let analysis;
 
   try {
-    analysis = JSON.parse(data.response);
-  } catch {
-    throw new Error("The vision AI returned invalid JSON.");
+    analysis = JSON.parse(aiResponse);
+  } catch (error) {
+    console.error("Invalid AI JSON response:", aiResponse);
+
+    throw new Error(
+      "The vision AI returned invalid JSON. Please try again."
+    );
   }
 
-  // 6. Validate main response structure.
+  // 7. Validate main response structure.
   if (
     !analysis ||
     typeof analysis !== "object" ||
@@ -206,21 +240,21 @@ Return only JSON. Do not include Markdown.
   const roomDetails = analysis.roomDetails;
   const design = analysis.designAnalysis;
 
-  // 7. Normalize room type.
+  // 8. Normalize room type.
   const requestedRoomType = cleanString(analysis.roomType);
 
   const roomType = VALID_ROOM_TYPES.includes(requestedRoomType)
     ? requestedRoomType
     : "Unknown";
 
-  // 8. Normalize design style.
+  // 9. Normalize design style.
   const requestedStyle = cleanString(design.detectedStyle);
 
   const detectedStyle = VALID_STYLES.includes(requestedStyle)
     ? requestedStyle
     : "Unknown";
 
-  // 9. Normalize space condition.
+  // 10. Normalize space condition.
   const requestedSpace = cleanString(design.spaceCondition);
 
   const spaceCondition = VALID_SPACE_CONDITIONS.includes(
@@ -229,13 +263,12 @@ Return only JSON. Do not include Markdown.
     ? requestedSpace
     : "Unknown";
 
-  // 10. Clean improvements.
-  let improvements = cleanStringArray(analysis.improvements);
+  // 11. Clean improvements.
+  const improvements = [
+    ...new Set(cleanStringArray(analysis.improvements)),
+  ].slice(0, 5);
 
-  // Keep up to five unique improvements.
-  improvements = [...new Set(improvements)].slice(0, 5);
-
-  // 11. Return complete structured analysis.
+  // 12. Return complete structured analysis.
   return {
     roomType,
 
@@ -245,21 +278,27 @@ Return only JSON. Do not include Markdown.
       windows: cleanString(roomDetails.windows),
       lighting: cleanString(roomDetails.lighting),
       layout: cleanString(roomDetails.layout),
+
       visibleFurniture: cleanStringArray(
         roomDetails.visibleFurniture
       ),
+
       availableSpace: cleanString(roomDetails.availableSpace),
     },
 
     designAnalysis: {
       detectedStyle,
+
       roomColorPalette: cleanStringArray(
         design.roomColorPalette
       ),
+
       suggestedFurnitureMaterials: cleanStringArray(
         design.suggestedFurnitureMaterials
       ),
+
       spaceCondition,
+
       designSuggestions: cleanStringArray(
         design.designSuggestions
       ),
@@ -267,7 +306,7 @@ Return only JSON. Do not include Markdown.
 
     improvements,
 
-    rawAIResponse: data.response,
+    rawAIResponse: aiResponse,
   };
 };
 
